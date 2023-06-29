@@ -1,5 +1,5 @@
 # swift-typeid
-An implementation of `typeid` in Swift.
+An implementation of [`typeid`](https://github.com/jetpack-io/typeid) in Swift.
 
 ## Usage
 
