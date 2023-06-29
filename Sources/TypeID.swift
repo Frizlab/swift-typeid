@@ -29,6 +29,10 @@ public struct TypeID : RawRepresentable {
 		self.uuid = uuid
 	}
 	
+	public init?(prefix: String?, allowedDateDelta: TimeInterval? = nil) {
+		self.init(prefix: prefix, uuid: UUIDv7(allowedDateDelta: allowedDateDelta))
+	}
+	
 	public init?(rawValue: String) {
 		/* We accept TypeID starting with an “_”, though technically if the prefix is empty the “_” should be dropped. */
 		let components = rawValue.split(separator: "_", maxSplits: 1, omittingEmptySubsequences: false)
