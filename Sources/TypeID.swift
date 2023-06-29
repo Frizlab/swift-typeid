@@ -19,7 +19,7 @@ public struct TypeID : RawRepresentable {
 	public var uuid: UUIDv7
 	
 	/** If the given prefix is `nil`, the resulting ``TypeID`` will have an empty (but non-nil) prefix. */
-	public init?(prefix: String?, uuid: UUIDv7) {
+	public init?(prefix: String?, uuid: UUIDv7 = UUIDv7()) {
 		guard prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz").inverted) == nil else {
 			/* The prefix must be lower-case ascii-only as per the specs. */
 			return nil
