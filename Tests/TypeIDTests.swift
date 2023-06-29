@@ -12,6 +12,11 @@ import XCTest
 
 final class TypeIDTests: XCTestCase {
 	
+	func testReadmeExample() throws {
+		let id = try XCTUnwrap(TypeID(prefix: "user"))
+		XCTAssert(id.rawValue.hasPrefix("user_"))
+	}
+	
 	func testInitEmptyPrefix() throws {
 		let typeID = try XCTUnwrap(TypeID(prefix: "", uuid: UUIDv7()))
 		let rawValue = typeID.rawValue
