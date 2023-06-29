@@ -29,7 +29,7 @@ public struct TypeID : RawRepresentable {
 		self.uuid = uuid
 	}
 	
-	public init?(prefix: String?, allowedDateDelta: TimeInterval? = nil) {
+	public init?(prefix: String?, allowedDateDelta: TimeInterval?) {
 		self.init(prefix: prefix, uuid: UUIDv7(allowedDateDelta: allowedDateDelta))
 	}
 	
