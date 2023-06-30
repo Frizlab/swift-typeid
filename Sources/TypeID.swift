@@ -9,18 +9,28 @@ import Foundation
 
 
 
-public struct TypeID : RawRepresentable {
+public struct TypeID : RawRepresentable, Hashable {
 	
 	/**
 	 The setter for the prefix is not public because it must be validated.
 	 
 	 An empty prefix is valid. */
 	public private(set) var prefix: String
-	public var uuid: UUIDv7
+	public var uuid: UUID
 	
 	/** If the given prefix is `nil`, the resulting ``TypeID`` will have an empty (but non-nil) prefix. */
-	public init?(prefix: String?, uuid: UUIDv7 = UUIDv7()) {
-		guard prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz").inverted) == nil else {
+	public init?(prefix: String?, base32EncodedUUID: String) {
+		guard let uuid = UUID(base32EncodedString: base32EncodedUUID) else {
+			return nil
+		}
+		self.init(prefix: prefix, uuid: uuid)
+	}
+	
+	/** If the given prefix is `nil`, the resulting ``TypeID`` will have an empty (but non-nil) prefix. */
+	public init?(prefix: String?, uuid: UUID = UUIDv7().rawValue) {
+		guard prefix?.count ?? 0 < 64,
+				prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz").inverted) == nil
+		else {
 			/* The prefix must be lower-case ascii-only as per the specs. */
 			return nil
 		}
@@ -30,25 +40,30 @@ public struct TypeID : RawRepresentable {
 	}
 	
 	public init?(prefix: String?, allowedDateDelta: TimeInterval?) {
-		self.init(prefix: prefix, uuid: UUIDv7(allowedDateDelta: allowedDateDelta))
+		self.init(prefix: prefix, uuid: UUIDv7(allowedDateDelta: allowedDateDelta).rawValue)
 	}
 	
 	public init?(rawValue: String) {
-		/* We accept TypeID starting with an “_”, though technically if the prefix is empty the “_” should be dropped. */
+		/* We do not accept TypeID starting with an “_”.
+		 * We used to do it, but tests from upstream say we must not. */
+		guard !rawValue.starts(with: "_") else {
+			return nil
+		}
+		
 		let components = rawValue.split(separator: "_", maxSplits: 1, omittingEmptySubsequences: false)
 		assert(components.count == 1 || components.count == 2)
 		
 		let uuidString = String(components.count == 1 ? components[0] : components[1])
-		guard let uuid = UUID(base32EncodedString: uuidString), let uuidv7 = UUIDv7(rawValue: uuid) else {
+		guard let uuid = UUID(base32EncodedString: uuidString) else {
 			return nil
 		}
 		
-		self.init(prefix: components.count == 2 ? String(components[0]) : "", uuid: uuidv7)
+		self.init(prefix: components.count == 2 ? String(components[0]) : "", uuid: uuid)
 	}
 	
 	public var rawValue: String {
-		if prefix.isEmpty {return                uuid.rawValue.base32EncodedString()}
-		else              {return prefix + "_" + uuid.rawValue.base32EncodedString()}
+		if prefix.isEmpty {return                uuid.base32EncodedString()}
+		else              {return prefix + "_" + uuid.base32EncodedString()}
 	}
 	
 }

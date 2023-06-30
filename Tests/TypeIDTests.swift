@@ -2,7 +2,7 @@
  * TypeIDTests.swift
  * TypeIDTests
  *
- * Created by François Lamboley on 2023/06/29.
+ * Created by François Lamboley on 2023/06/30.
  */
 
 import XCTest
@@ -18,7 +18,7 @@ final class TypeIDTests: XCTestCase {
 	}
 	
 	func testInitEmptyPrefix() throws {
-		let typeID = try XCTUnwrap(TypeID(prefix: "", uuid: UUIDv7()))
+		let typeID = try XCTUnwrap(TypeID(prefix: "", uuid: UUIDv7().rawValue))
 		let rawValue = typeID.rawValue
 		XCTAssertFalse(rawValue.starts(with: "_"))
 		print(rawValue)
@@ -31,12 +31,12 @@ final class TypeIDTests: XCTestCase {
 	}
 	
 	func testInitInvalidPrefix() throws {
-		XCTAssertNil(TypeID(prefix: "Hello", uuid: UUIDv7()))
+		XCTAssertNil(TypeID(prefix: "Hello", uuid: UUIDv7().rawValue))
 		XCTAssertNil(TypeID(rawValue: "._" + UUIDv7().rawValue.base32EncodedString()))
 	}
 	
 	func testInitNormalPrefix() throws {
-		XCTAssertNotNil(TypeID(prefix: "user", uuid: UUIDv7()))
+		XCTAssertNotNil(TypeID(prefix: "user", uuid: UUIDv7().rawValue))
 		XCTAssertNotNil(TypeID(rawValue: "user_" + UUIDv7().rawValue.base32EncodedString()))
 	}
 	

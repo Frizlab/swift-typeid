@@ -26,7 +26,7 @@ import Foundation
  |                            rand_b                             |
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  ``` */
-public struct UUIDv7 : RawRepresentable {
+public struct UUIDv7 : RawRepresentable, Hashable {
 	
 	public private(set) var tsMsPart1: UInt8
 	public private(set) var tsMsPart2: UInt8
