@@ -73,9 +73,6 @@ final class UpstreamTypeIDTests: XCTestCase {
 		}
 	}
 	
-	/* This test does not pass.
-	 * But should it??
-	 * It was my understanding a typeid “suffix” value is a UUIDv7, and these UUID ain’t v7… */
 	func testSpecialValues() throws {
 		let testData = [
 			(tid: "00000000000000000000000000", uuid: "00000000-0000-0000-0000-000000000000"),
