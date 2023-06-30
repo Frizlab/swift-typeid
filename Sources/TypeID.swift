@@ -31,7 +31,7 @@ public struct TypeID : RawRepresentable, Hashable {
 		guard prefix?.count ?? 0 < 64,
 				prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz").inverted) == nil
 		else {
-			/* The prefix must be lower-case ascii-only as per the specs. */
+			/* The prefix must be shorter than 64 characters and lower-case ascii-only as per the specs. */
 			return nil
 		}
 		
