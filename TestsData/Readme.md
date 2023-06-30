@@ -5,7 +5,7 @@ The upstream provides a list of typeids that must be considered invalid, with th
 The list is provided [as a YAML file](<https://github.com/jetpack-io/typeid-go/blob/main/testdata/invalid.yml>).
 
 Swift does not have a builtin YAML parser.
-(Personal note: Thank God for that! have you seen the specs of YAML? What a mess…)
+(Personal note: Thank God for that! Have you seen the specs of YAML? What a mess…)
 
 To workaround the lack of parser, we convert the YAML file to a JSON file using `yj`, because Swift does have a JSON parser builtin.
 
