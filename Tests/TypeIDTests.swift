@@ -21,7 +21,6 @@ final class TypeIDTests: XCTestCase {
 		let typeID = try XCTUnwrap(TypeID(prefix: "", uuid: UUIDv7().rawValue))
 		let rawValue = typeID.rawValue
 		XCTAssertFalse(rawValue.starts(with: "_"))
-		print(rawValue)
 		XCTAssertEqual(rawValue.count, 26)
 	}
 	
