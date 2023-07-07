@@ -15,9 +15,13 @@ extension UUID {
 	public init?(base32EncodedString str: String) {
 		/* First check: If the string is not exactly 26 char, it does not represent a UUID. */
 		guard str.count == 26 else {return nil}
+		/* Second check: We must not overflow the UUID value. */
+		guard Set(["0", "1", "2", "3", "4", "5", "6", "7"] as [Character]).contains(str.first!) else {
+			return nil
+		}
 		
 		let values = str.compactMap{ lookupTable[$0] }
-		/* Second check: It’s not because the string was 26 chars that all its characters were valid in a base32 encoded UUID. */
+		/* Third check: It’s not because the string was 26 chars that all its characters were valid in a base32 encoded UUID. */
 		guard values.count == 26 else {return nil}
 		
 		var data = Data(repeating: 0, count: 16)
