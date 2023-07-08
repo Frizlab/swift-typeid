@@ -107,7 +107,16 @@ final class UpstreamTypeIDTests: XCTestCase {
 		}
 	}
 	
-	func testPerf() throws {
+	func testPerfs() throws {
+		measure{
+			let typeid = TypeID(prefix: "test")!
+			XCTAssertEqual(typeid, TypeID(rawValue: typeid.rawValue))
+		}
+	}
+	
+#if !os(Linux)
+	@available(tvOS 13.0, iOS 13.0, watchOS 7.0, *)
+	func testPerfWithOptions() throws {
 		let options = {
 			let res = XCTMeasureOptions.default
 			res.iterationCount = 5000
@@ -118,5 +127,6 @@ final class UpstreamTypeIDTests: XCTestCase {
 			XCTAssertEqual(typeid, TypeID(rawValue: typeid.rawValue))
 		})
 	}
+#endif
 	
 }
