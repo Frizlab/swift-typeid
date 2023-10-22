@@ -23,7 +23,7 @@ curl --location https://github.com/jetpack-io/typeid-go/raw/main/testdata/invali
 ```
 
 ## `valid-typeids.json`
-There is the same speech as above, for the valid typeids.
+Same as above, but for the valid typeids.
 ```bash
 curl --location https://github.com/jetpack-io/typeid-go/raw/main/testdata/valid.yml >TestsData/upstream/valid-typeids.yml
 cat TestsData/upstream/valid-typeids.yml | yj >TestsData/valid-typeids.json
