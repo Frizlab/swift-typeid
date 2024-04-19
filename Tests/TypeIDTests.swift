@@ -32,11 +32,29 @@ final class TypeIDTests: XCTestCase {
 	func testInitInvalidPrefix() throws {
 		XCTAssertNil(TypeID(prefix: "Hello", uuid: UUIDv7().rawValue))
 		XCTAssertNil(TypeID(rawValue: "._" + UUIDv7().rawValue.base32EncodedString()))
+		XCTAssertNil(TypeID(prefix: "abc_", uuid: UUIDv7().rawValue))
+		XCTAssertNil(TypeID(prefix: "_abc", uuid: UUIDv7().rawValue))
+		XCTAssertNil(TypeID(prefix: "_abc_", uuid: UUIDv7().rawValue))
 	}
 	
 	func testInitNormalPrefix() throws {
 		XCTAssertNotNil(TypeID(prefix: "user", uuid: UUIDv7().rawValue))
 		XCTAssertNotNil(TypeID(rawValue: "user_" + UUIDv7().rawValue.base32EncodedString()))
+	}
+	
+	func testInitPrefixWithUnderscore() throws {
+		let id = try XCTUnwrap(TypeID(prefix: "best_id", uuid: UUIDv7().rawValue))
+		XCTAssertEqual(id, TypeID(rawValue: id.rawValue))
+	}
+	
+	func testInitPrefixWithDoubleUnderscore() throws {
+		let id = try XCTUnwrap(TypeID(prefix: "best__id", uuid: UUIDv7().rawValue))
+		XCTAssertEqual(id, TypeID(rawValue: id.rawValue))
+	}
+	
+	func testInitPrefixWithTwoUnderscores() throws {
+		let id = try XCTUnwrap(TypeID(prefix: "the_best_id", uuid: UUIDv7().rawValue))
+		XCTAssertEqual(id, TypeID(rawValue: id.rawValue))
 	}
 	
 }
