@@ -29,7 +29,8 @@ public struct TypeID : RawRepresentable, Hashable {
 	/** If the given prefix is `nil`, the resulting ``TypeID`` will have an empty (but non-nil) prefix. */
 	public init?(prefix: String?, uuid: UUID = UUIDv7().rawValue) {
 		guard prefix?.count ?? 0 < 64,
-				prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz").inverted) == nil
+				prefix?.rangeOfCharacter(from: CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz_").inverted) == nil,
+				!(prefix.flatMap{ $0.hasPrefix("_") || $0.hasSuffix("_") } ?? false)
 		else {
 			/* The prefix must be shorter than 64 characters and lower-case ascii-only as per the specs. */
 			return nil
@@ -50,15 +51,12 @@ public struct TypeID : RawRepresentable, Hashable {
 			return nil
 		}
 		
-		let components = rawValue.split(separator: "_", maxSplits: 1, omittingEmptySubsequences: false)
-		assert(components.count == 1 || components.count == 2)
-		
-		let uuidString = String(components.count == 1 ? components[0] : components[1])
-		guard let uuid = UUID(base32EncodedString: uuidString) else {
+		var components = rawValue.split(separator: "_", omittingEmptySubsequences: false)
+		guard let uuidString = components.popLast().flatMap(String.init), let uuid = UUID(base32EncodedString: uuidString) else {
 			return nil
 		}
 		
-		self.init(prefix: components.count == 2 ? String(components[0]) : "", uuid: uuid)
+		self.init(prefix: components.joined(separator: "_"), uuid: uuid)
 	}
 	
 	public var rawValue: String {
