@@ -114,7 +114,7 @@ final class UpstreamTypeIDTests: XCTestCase {
 		}
 	}
 	
-#if !os(Linux)
+#if canImport(Darwin)
 	@available(tvOS 13.0, iOS 13.0, watchOS 7.0, *)
 	func testPerfWithOptions() throws {
 		let options = {
