@@ -9,7 +9,7 @@ import Foundation
 
 
 
-public struct TypeID : RawRepresentable, Hashable {
+public struct TypeID : RawRepresentable, Hashable, Sendable {
 	
 	/**
 	 The setter for the prefix is not public because it must be validated.
