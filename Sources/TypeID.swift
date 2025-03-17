@@ -9,6 +9,9 @@ import Foundation
 
 
 
+#if canImport(Darwin) || swift(>=5.9)
+extension TypeID : Sendable {}
+#endif
 public struct TypeID : RawRepresentable, Hashable {
 	
 	/**
