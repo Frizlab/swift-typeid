@@ -12,10 +12,6 @@ import XCTest
 
 public extension XCTestCase {
 	
-	static let testsDataPath = URL(fileURLWithPath: #file, isDirectory: false)
-		.deletingLastPathComponent()
-		.deletingLastPathComponent()
-		.appendingPathComponent("TestsData", isDirectory: true)
-//		.appending(path: "TestsData", directoryHint: .isDirectory) /* macOS 13+ */
+	static let testsDataPath = Bundle.module.url(forResource: "Data", withExtension: nil)!
 	
 }

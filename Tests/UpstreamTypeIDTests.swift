@@ -97,6 +97,7 @@ final class UpstreamTypeIDTests: XCTestCase {
 			var prefix: String
 			var uuid: UUID
 		}
+		print("yolo: \(Self.testsDataPath)")
 		let testEntriesJSON = try Data(contentsOf: Self.testsDataPath.appendingPathComponent("valid-typeids.json"))
 		let testEntries = try JSONDecoder().decode([TestEntry].self, from: testEntriesJSON)
 		
