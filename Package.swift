@@ -9,6 +9,8 @@ let package = Package(
 	],
 	targets: [
 		.target(name: "TypeID", path: "Sources"),
-		.testTarget(name: "TypeIDTests", dependencies: ["TypeID"], path: "Tests"),
+		.testTarget(name: "TypeIDTests", dependencies: ["TypeID"], path: "Tests", resources: [
+			.copy("Data")
+		]),
 	]
 )
